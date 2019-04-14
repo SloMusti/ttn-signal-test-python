@@ -1,11 +1,29 @@
+# TTN signal analysis tool for multiple devices in multiple applications
+# Run for a while and obtain an accurate signal level through averaging
+# Note that changing SF or otehr parameters invalidates this
+
+# config.yml file must be present, sample input
+""" <your app name>:
+   id: <ttn application id>
+   key: <ttn application key> """
+
+# Sample output:
+""" ###### ns-mapper-1
+gateway_novisad_popovica          -71.42 dBm       0.00 km
+###### mb-mapper-1
+eui-fcc23dfffe0a7553             -105.50 dBm       7.19 km
+maribor-pohorje-gateway          -104.17 dBm       7.18 km
+maribor-center-gateway            -89.00 dBm       0.04 km
+irnas-1                           -87.50 dBm       0.00 km
+maribor-tyrseva-s59dxx            -69.33 dBm       0.00 km """
+
 import time
 import ttn
 import yaml
 import traceback
-
 import geopy.distance
 
-#procesing messages and measuring signal
+#dictionary to store all data
 device_dict = {}
 
 def average(lst):
@@ -52,8 +70,6 @@ def uplink_callback(msg, client):
     print(e)
     traceback.print_exc()
 
-
-#MSG(app_id='maribor-mapper', dev_id='mb-mapper-1', hardware_serial='009A5AF08D02DBD0', port=1, counter=378949, payload_raw='wjngiyKCATAM', payload_fields=MSG(alt=304, hdop=1.2, lat=46.565216574979814, lon=15.658318737645061), metadata=MSG(time='2019-04-14T07:32:42.909810497Z', frequency=867.5, modulation='LORA', data_rate='SF7BW125', airtime=56576000, coding_rate='4/5', gateways=[MSG(gtw_id='eui-58a0cbfffe800657', timestamp=367038860, time='2019-04-14T07:32:42.551888Z', channel=0, rssi=-59, snr=7, rf_chain=0, latitude=46.56487, longitude=15.658201, location_source='registry')], latitude=46.565678, longitude=15.659616, location_source='registry'))
 
 # load config file, to store keys separtely and not commit to git
 with open("config.yml", 'r') as ymlfile:
