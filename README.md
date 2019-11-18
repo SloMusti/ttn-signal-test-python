@@ -7,7 +7,7 @@ Download this repository. Set up the environment, recommended to use python virt
 ```
 git clone https://github.com/SloMusti/ttn-signal-test-python
 cd ttn-signal-test-python
-python3 -m env
+python3 -m venv ./env
 source env/bin/activate
 pip install -r requirements.txt
 ```

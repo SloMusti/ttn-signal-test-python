@@ -31,6 +31,9 @@ def average(lst):
 
 def uplink_callback(msg, client):
   #print("Received uplink from ", msg.dev_id)
+  f = open('log.txt', 'a')
+  f.write(str(msg)+"\r\n")
+  f.close()
   try:
     #check if device is in the list
     if msg.dev_id in device_dict.keys():
@@ -49,7 +52,7 @@ def uplink_callback(msg, client):
       #check if gw in the list
       if gateway_id in device_dict[msg.dev_id].keys():
           device_dict[msg.dev_id][gateway_id]["rssi"].append(rssi)
-          #print(rssi)
+          print(rssi)
       else:
         #note location may be missing and is handled
         try:
@@ -77,6 +80,10 @@ with open("config.yml", 'r') as ymlfile:
         cfg = yaml.safe_load(ymlfile)
     except yaml.YAMLError as exc:
             print(exc)
+
+f = open('log.txt', 'a')
+f.write("start\r\n")
+f.close()
 
 #note there may be multiple entries, currently taking the last one through iteration, assuming one entry
 for section in cfg:
